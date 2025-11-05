@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة المكتبة</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-book-open me-2"></i>
+                نظام إدارة المكتبة
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">الرئيسية</a>
+                    </li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="#loans">استعاراتي</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-light me-2" id="loginBtn">تسجيل الدخول</button>
+                    <button class="btn btn-light" id="registerBtn">إنشاء حساب</button>
+                </div>
+            </div>
+        </div>
+        <!-- Add this button in your nav section -->
+<button class="btn btn-outline-warning me-2" id="adminLoginBtn">
+    <i class="fas fa-user-shield me-1"></i>دخول المسؤول
+</button>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold text-white mb-4">نظام إدارة المكتبة الإلكتروني</h1>
+                    <p class="lead text-white mb-4">نظام متكامل لإدارة المكتبات، تنظيم الكتب، المستخدمين، الاستعارة، الإرجاع، والتقارير انت الذى تتحكم بكل شئ...</p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-light btn-lg"onclick="scrollToAuthors()">استكشاف الكتب</button>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="hero-image">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Admin Login Modal -->
+<div class="modal fade" id="adminLoginModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">دخول المسؤول</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="adminLoginForm">
+                    <div class="mb-3">
+                        <label for="adminUsername" class="form-label">اسم المستخدم</label>
+                        <input type="text" class="form-control" id="adminUsername" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adminPassword" class="form-label">كلمة المرور</label>
+                        <input type="password" class="form-control" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">دخول المسؤول</button>
+                </form>
+                <div class="mt-3 text-center">
+                    <small class="text-muted">بيانات الدخول: admin / admin</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">إنشاء حساب جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">الاسم الكامل *</label>
+                            <input type="text" class="form-control" id="registerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">البريد الإلكتروني *</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">كلمة المرور *</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerUniversityId" class="form-label">رقم الجامعة *</label>
+                            <input type="text" class="form-control" id="registerUniversityId" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">إنشاء الحساب</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Add Author Modal -->
+<div class="modal fade" id="addAuthorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">إضافة مؤلف جديد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addAuthorForm">
+                    <div class="mb-3">
+                        <label for="newAuthorName" class="form-label">اسم المؤلف *</label>
+                        <input type="text" class="form-control" id="newAuthorName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newAuthorBio" class="form-label">السيرة الذاتية</label>
+                        <textarea class="form-control" id="newAuthorBio" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newAuthorNationality" class="form-label">الجنسية</label>
+                        <input type="text" class="form-control" id="newAuthorNationality">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-primary" onclick="addNewAuthor()">إضافة المؤلف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Author Photos Gallery Section -->
+<section id="authors" class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title">كنوز الثقافه المصريه</h2>
+                <p class="text-muted">تاريخ مصر المعاصر</p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Author 1 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="author-card text-center">
+                    <img src="../images/ebn_khaldoon.jpeg" alt="ابن خلدون" class="author-img">
+                    <div class="author-info mt-3">
+                        <h5 class="author-name">ابن خلدون</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- Author 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="author-card text-center">
+                    <img src="./images/abbas_elakkad.jpeg" alt="Author 2" class="author-img">
+                    <div class="author-info mt-3">
+                        <h5 class="author-name">عباس العقاد</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- Author 3 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="author-card text-center">
+                    <img src="./images/alaa_elaswani.jpeg" alt="Author 3" class="author-img">
+                    <div class="author-info mt-3">
+                        <h5 class="author-name">علاء الأسواني</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- Author 4 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="author-card text-center">
+                    <img src="./images/elyaf_shafak.jpeg" alt="Author 4" class="author-img">
+                    <div class="author-info mt-3">
+                        <h5 class="author-name">إليف شافاق</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- Author 5 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="author-card text-center">
+                    <img src="./images/nageeb_mahfouz.jpeg" alt="Author 5" class="author-img">
+                    <div class="author-info mt-3">
+                        <h5 class="author-name">نجيب محفوظ</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- Author 6 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="author-card text-center">
+                    <img src="./images/taha_hussien.jpeg" alt="Author 6" class="author-img">
+                    <div class="author-info mt-3">
+                        <h5 class="author-name">طه حسين</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+            <!-- My Loans Section -->
+<section id="loans" class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title">إستعاراتي</h2>
+                <p class="text-muted">عرض الكتب التي قمت باستعارتها</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="loansList">
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-book-open fa-3x mb-3"></i>
+                                <p>لا توجد استعارات حالية</p>
+                                <p class="small">قم بتسجيل الدخول وعرض الكتب المتاحة للاستعارة</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+            <!-- Search and Filters -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="ابحث عن كتاب..."  onkeypress="handleSearchKeypress(event)">
+                        <button class="btn btn-primary"><i class="fas fa-search" onclick="handleSearch()"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex gap-2">
+                        <select class="form-select" id="categoryFilter" onchange="applyFilters()">
+                            <option>جميع الفئات</option>
+                             <!-- Categories will be populated dynamically -->
+                        </select>
+                        <select class="form-select" id="authorFilter" onchange="applyFilters()">
+                            <option>جميع المؤلفين</option>
+                            <!-- Categories will be populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Books Grid -->
+            <div class="row" id="booksGrid">
+                <!-- Books will be loaded here dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تسجيل الدخول</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">كلمة المرور</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">تسجيل الدخول</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Book Modal -->
+<div class="modal fade" id="addBookModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">إضافة كتاب جديد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addBookForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="bookTitle" class="form-label">عنوان الكتاب *</label>
+                                <input type="text" class="form-control" id="bookTitle" required>
+                            </div>
+                        </div>
+                       <div class="col-md-6">
+    <div class="mb-3">
+        <label for="bookAuthor" class="form-label">المؤلف *</label>
+        <input type="text" class="form-control" id="bookAuthor" 
+               placeholder="اكتب اسم المؤلف (سيتم إنشاؤه تلقائياً إذا كان جديداً)" 
+               required>
+        <div class="form-text">اكتب اسم المؤلف - سيتم إنشاؤه تلقائياً إذا كان جديد</div>
+    </div>
+</div>
+                    </div>
+
+                    
+                    <div class="row">
+                      <div class="col-md-6">
+    <div class="mb-3">
+        <label for="bookCategory" class="form-label">التصنيف *</label>
+        <input type="text" class="form-control" id="bookCategory" 
+               placeholder="اكتب التصنيف (سيتم إنشاؤه تلقائياً إذا كان جديداً)" 
+               required>
+        <div class="form-text">اكتب التصنيف - سيتم إنشاؤه تلقائياً إذا كان جديد</div>
+    </div>
+</div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="bookYear" class="form-label">سنة النشر</label>
+                                <input type="number" class="form-control" id="bookYear" min="1000" max="2030">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bookSummary" class="form-label">الوصف</label>
+                        <textarea class="form-control" id="bookSummary" rows="3"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="bookCopies" class="form-label">عدد النسخ</label>
+                                <input type="number" class="form-control" id="bookCopies" value="1" min="1">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="bookISBN" class="form-label">الرقم الدولي</label>
+                                <input type="text" class="form-control" id="bookISBN">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="bookPublisher" class="form-label">الناشر</label>
+                                <input type="text" class="form-control" id="bookPublisher">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+<button type="button" class="btn btn-primary" onclick="addNewBook(event)">إضافة الكتاب</button>            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Book Button in Navbar -->
+<button class="btn btn-success me-2" id="addBookBtn" style="display: none;">
+    <i class="fas fa-plus me-1"></i>إضافة كتاب
+</button>
+<!-- Admin Panel Modal -->
+<div class="modal fade" id="adminModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">لوحة التحكم - المسؤول</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-sync-alt fa-2x text-primary mb-3"></i>
+                                <h5>إعادة تعيين الكتب</h5>
+                                <p class="text-muted small">إعادة جميع الكتب إلى الحالة المتاحة</p>
+                                <button class="btn btn-outline-primary w-100" onclick="resetAllBooks()">
+                                    إعادة التعيين
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-bell fa-2x text-warning mb-3"></i>
+                                <h5>التذكيرات</h5>
+                                <p class="text-muted small">إرسال تذكيرات للمستخدمين المتأخرين</p>
+                                <button class="btn btn-outline-warning w-100" onclick="sendReminders()">
+                                    إرسال التذكيرات
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6>الاستعارات المتأخرة</h6>
+                    <div id="overdueLoansList">
+                        <div class="text-center text-muted py-3">
+                            <i class="fas fa-clock fa-2x mb-2"></i>
+                            <p>جاري تحميل البيانات...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Book Details Modal - Smart (Read-only for users, Editable for admins) -->
+<div class="modal fade" id="bookDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookDetailsTitle">تفاصيل الكتاب</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bookDetailsForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">عنوان الكتاب</label>
+                                <input type="text" class="form-control" id="detailBookTitle" readonly>
+                                <div class="admin-only" style="display: none;">
+                                    <small class="text-muted">اضغط للتعديل</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">المؤلف</label>
+                                <p class="form-control-plaintext" id="detailBookAuthor"></p>
+                                <small class="text-muted">لا يمكن تعديل المؤلف</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">التصنيف</label>
+                                <input type="text" class="form-control" id="detailBookCategory" readonly>
+                                <div class="admin-only" style="display: none;">
+                                    <small class="text-muted">يمكنك تغيير التصنيف</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">سنة النشر</label>
+                                <input type="number" class="form-control" id="detailBookYear" readonly>
+                                <div class="admin-only" style="display: none;">
+                                    <small class="text-muted">اضغط للتعديل</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">الوصف</label>
+                        <textarea class="form-control" id="detailBookSummary" rows="3" readonly></textarea>
+                        <div class="admin-only" style="display: none;">
+                            <small class="text-muted">اضغط للتعديل</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">عدد النسخ</label>
+                                <input type="number" class="form-control" id="detailBookCopies" readonly>
+                                <div class="admin-only" style="display: none;">
+                                    <small class="text-muted">اضغط للتعديل</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">الرقم الدولي (ISBN)</label>
+                                <input type="text" class="form-control" id="detailBookISBN" readonly>
+                                <div class="admin-only" style="display: none;">
+                                    <small class="text-muted">اضغط للتعديل</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">الناشر</label>
+                                <input type="text" class="form-control" id="detailBookPublisher" readonly>
+                                <div class="admin-only" style="display: none;">
+                                    <small class="text-muted">اضغط للتعديل</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Book Metadata (Read-only for all users) -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">النسخ المتاحة</label>
+                                <p class="form-control-plaintext" id="detailAvailableCopies"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">حالة الكتاب</label>
+                                <p class="form-control-plaintext" id="detailBookStatus"></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- Regular User Buttons -->
+                <div class="user-only">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+                
+                <!-- Admin Buttons -->
+                <div class="admin-only" style="display: none;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" onclick="saveBookChanges()">حفظ التغييرات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add this button to your navbar in index.html -->
+<button class="btn btn-warning me-2" id="adminBtn" style="display: none;">
+    <i class="fas fa-cog me-1"></i>لوحة التحكم
+</button>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
