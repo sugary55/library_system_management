@@ -58,7 +58,8 @@ router.post('/auto-create', requireAdmin, async (req, res) => {
             availableCopies: totalCopies || 1,
             isbn: isbn || '',
             publisher: publisher || '',
-            language: 'Arabic'
+            language: 'Arabic',
+            coverImage: req.body.coverImage || '/images/default-book-cover.jpg'
         });
 
         await book.save();
@@ -146,7 +147,8 @@ router.post('/', requireAdmin, async (req, res) => {
             availableCopies: totalCopies || 1,
             isbn: isbn || '',
             publisher: publisher || '',
-            language: 'Arabic'
+            language: 'Arabic',
+            coverImage: req.body.coverImage || '/images/default-book-cover.jpg'
         });
 
         await book.save();
@@ -216,7 +218,8 @@ router.post('/auto-create', requireAdmin, async (req, res) => {
             availableCopies: totalCopies || 1,
             isbn: isbn || '',
             publisher: publisher || '',
-            language: 'Arabic'
+            language: 'Arabic',
+            coverImage: req.body.coverImage || '/images/default-book-cover.jpg'
         });
 
         await book.save();

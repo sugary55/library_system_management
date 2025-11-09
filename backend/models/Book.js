@@ -41,8 +41,10 @@ const bookSchema = new mongoose.Schema({
         enum: ['available', 'borrowed', 'maintenance'],
         default: 'available'
     },
-    coverImage: String
-}, {
+    coverImage: {type: String,
+        default:  '/images/default-book-cover.jpg'}
+}, 
+{
     timestamps: true
 });
 

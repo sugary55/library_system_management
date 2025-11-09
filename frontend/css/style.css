@@ -362,3 +362,47 @@ body {
         padding: 15px;
     }
 }
+/* ==================== BOOK COVER IMAGES ==================== */
+
+.book-cover-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover .book-cover-image {
+    transform: scale(1.05);
+}
+
+.book-card-img {
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    height: 200px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fallback for missing images */
+.book-card-img:has(img[src=""]) {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.book-card-img:has(img[src=""])::before {
+    content: "📚";
+    font-size: 3rem;
+    color: white;
+}
+
+/* Default book cover styling */
+.default-book-cover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}

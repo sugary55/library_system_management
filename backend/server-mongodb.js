@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const userRoutes = require('./routes/users');
 require('dotenv').config();
+const fs = require('fs');
 
 const app = express();
 
@@ -457,3 +458,8 @@ const adminRoutes = require('./routes/admin');
 
 // Add this line with your other app.use() routes
 app.use('/api/admin', adminRoutes);
+const frontendPath = path.join(__dirname, '../frontend');
+console.log('📁 Frontend path:', frontendPath);
+console.log('📁 Path exists:', fs.existsSync(frontendPath));
+
+app.use(express.static(frontendPath));

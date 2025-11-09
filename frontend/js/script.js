@@ -20,6 +20,20 @@ let categoriesList = [];
 let isLoading = false;
 // Global variable to track current book being viewed/edited
 let currentBookInModal = null;
+// Default book cover images for fallback
+const defaultBookCovers = [
+    'https://picsum.photos/300/400?random=1',
+    'https://picsum.photos/300/400?random=2', 
+    'https://picsum.photos/300/400?random=3',
+    'https://picsum.photos/300/400?random=4',
+    'https://picsum.photos/300/400?random=5'
+];
+
+// Helper function to get a random default cover
+function getRandomDefaultCover() {
+    const randomIndex = Math.floor(Math.random() * defaultBookCovers.length);
+    return defaultBookCovers[randomIndex];
+}
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
@@ -646,9 +660,12 @@ function displayBooks(books) {
 
         col.innerHTML = `
             <div class="book-card h-100">
-                <div class="book-card-img">
-                    <i class="fas fa-book"></i>
-                </div>
+                        <div class="book-card-img">
+                            <img src="${book.coverImage || getRandomDefaultCover()}" 
+                                alt="${book.title}" 
+                                class="book-cover-image"
+                                onerror="this.src='${getRandomDefaultCover()}'">
+                        </div>
                 <div class="book-card-body d-flex flex-column">
                     <div class="flex-grow-1">
                         <span class="book-status ${statusClass}">${statusText}</span>
@@ -1333,7 +1350,8 @@ async function addNewBook(e) {
         summary: document.getElementById('bookSummary').value,
         totalCopies: parseInt(document.getElementById('bookCopies').value) || 1,
         isbn: document.getElementById('bookISBN').value,
-        publisher: document.getElementById('bookPublisher').value
+        publisher: document.getElementById('bookPublisher').value,
+        coverImage: document.getElementById('bookCoverImage').value || ''
     };
 
     // Validate required fields
